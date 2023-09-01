@@ -26,8 +26,8 @@
     <!-- Header Start -->
     <header>
       <!-- Navbar Start -->
-      <nav class="border-b-2 mx-20 py-5">
-        <div class="flex justify-between navbar bg-base-100">
+      <nav class="border-b-2 2xl:mx-20 py-5">
+        <div class="flex justify-evenly 2xl:justify-between navbar bg-base-100">
           <div>
             <img src="./images/Logo.png" alt="" />
           </div>
@@ -56,11 +56,17 @@
     </header>
     <!-- Header End -->
     <main>
-      <section class="container mx-auto my-20">
+      <section class="max-w-screen-xl mx-auto my-20">
+        <!-- Loading Bars -->
+        <div id="loading-spinner" class="text-center hidden">
+          <span class="loading loading-spinner loading-lg"></span>
+        </div>
+        <!-- No data found div -->
+        <div id="NoDataFound"></div>
         <!-- Card Container -->
         <div
           id="card-container"
-          class="grid grid-cols-4 gap-5 place-items-center"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 place-items-center"
         ></div>
       </section>
     </main>
