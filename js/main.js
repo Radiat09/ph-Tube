@@ -19,8 +19,26 @@ const cardElement = (element) => {
   } else {
     verifiedIcon = "";
   }
+
+  const sec = element?.others?.posted_date;
+  const minute = sec / 60;
+  const hour = sec / 3600;
+  const day = sec / 86400;
+  const remainingMunite = Math.floor(minute - Math.floor(hour) * 60);
+  const remainingHour = Math.floor(hour - Math.floor(day) * 24);
+
+  // dynamic card
   card.innerHTML = `
-    <img src="${element?.thumbnail}" alt="" class="w-[312px] h-[200px] rounded-lg" />
+    <div  class="relative">
+    <img src="${
+      element?.thumbnail
+    }" alt="" class="w-[312px] h-[200px] rounded-lg" />
+    <p id="sec-to-min-hrs" class="bg-[#171717] text-white text-center w-2/5 -mt-6 absolute bottom-1 right-1 rounded-lg">${
+      !element?.others?.posted_date == ""
+        ? `${remainingHour}hrs ${remainingMunite}min ago`
+        : ""
+    }</p>
+    </div>
     <div class="flex gap-4 mt-4">
     <img
     src="${element?.authors[0]?.profile_picture}"
@@ -32,15 +50,27 @@ const cardElement = (element) => {
     ${element?.title}
     </h4>
       <div class="flex justify-center items-center gap-2">
-        <p class="text-second my-2">${element?.authors[0]?.profile_name}</p><span>${verifiedIcon}</span>
+        <p class="text-second my-2">${
+          element?.authors[0]?.profile_name
+        }</p><span>${verifiedIcon}</span>
         </div>
         <p class="text-second">${element?.others?.views} Views</p>
     </div>
     </div>
     `;
+
   CardContainer.appendChild(card);
+  handleSecToMinHrs(element);
 };
 
+const handleSecToMinHrs = (element) => {
+  const secToMinHrs = document.getElementById("sec-to-min-hrs");
+  if (element?.others?.posted_date === "") {
+    secToMinHrs.classList.add("hidden");
+  } else {
+    secToMinHrs.classList.remove("hidden");
+  }
+};
 // Handle catagory
 const handleCatagory = async () => {
   const res = await fetch(
@@ -62,7 +92,7 @@ const handleCatagory = async () => {
   });
 };
 
-// show all catagory
+// Load all catagory
 const loadCatagory = async () => {
   const res = await fetch(`
   https://openapi.programming-hero.com/api/videos/category/1000`);
@@ -72,6 +102,7 @@ const loadCatagory = async () => {
   // console.log(allCatagory);
   displayAllCatagory(allCatagory);
   // displayPhone(phones, isShowMore);
+  sortByView(allCatagory);
 };
 
 // display All catagory
@@ -82,7 +113,34 @@ const displayAllCatagory = (allCatagory) => {
     // console.log(element);
     cardElement(element);
   });
+
   loadingSpinner(false);
 };
+
+// Sort By View
+const sortByView = (allCatagory) => {
+  const newAllCatagory = [...allCatagory];
+  const newArr = [];
+  allCatagory.forEach((singleCatagory) => {
+    const viewsI = singleCatagory?.others?.views;
+    // console.log(viewsI);
+    let replaceK = viewsI.replace("K", " ");
+    let viewNum = parseFloat(replaceK);
+    newArr.push(viewNum);
+    // console.log(viewNum);
+  });
+  const decendingArr = newArr.sort((a, b) => a - b);
+  decendingArr.reverse();
+  // newAllCatagory.forEach((newCatagory) => {
+  //   let viewsObj = newCatagory?.others?.views;
+  //   let replaceK = viewsObj.replace("K", "");
+  //   const viewNum = parseFloat(replaceK);
+  //   viewsObj = viewNum;
+  //   console.log(viewNum);
+  //   console.log(newCatagory);
+  // });
+  // console.log(newAllCatagory);
+};
+
 handleCatagory();
 loadCatagory();

@@ -40,7 +40,7 @@ const loadSpecificCatagory = async (catagoryId) => {
   const emptyArr = [];
   if (dataArry.length === emptyArr.length) {
     loadingSpinner(false);
-    console.log("No Data");
+    // console.log("No Data");
     const noDataFoundDiv = document.createElement("div");
     noDataFoundDiv.classList = `flex flex-col justify-center items-center`;
     noDataFoundDiv.innerHTML = `
