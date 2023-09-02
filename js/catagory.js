@@ -30,12 +30,31 @@ const loadSpecificCatagory = async (catagoryId) => {
   const CardContainer = document.getElementById("card-container");
   // When click cardContainer will be empty for clicked catagory
   CardContainer.innerHTML = "";
-  // console.log(catagoryId);
+  console.log(catagoryId);
+
   const res = await fetch(
     `https://openapi.programming-hero.com/api/videos/category/${catagoryId}`
   );
   const data = await res.json();
   const dataArry = data.data;
+
+  // // sort By view condition
+  // dataArry.forEach((singleCatagory) => {
+  //   let viewsCount = singleCatagory?.others?.views;
+  //   // console.log(viewsI);
+  //   const newViews = parseFloat(viewsCount);
+  //   singleCatagory.others.views = newViews;
+  // });
+  // let newSort = dataArry.sort((a, b) => {
+  //   if (a.others.views < b.others.views) {
+  //     return 1;
+  //   }
+  //   if (a.others.views > b.others.views) {
+  //     return -1;
+  //   }
+  //   return 0;
+  // });
+
   // console.log(dataArry);
   const emptyArr = [];
   if (dataArry.length === emptyArr.length) {
@@ -45,7 +64,7 @@ const loadSpecificCatagory = async (catagoryId) => {
     noDataFoundDiv.classList = `flex flex-col justify-center items-center`;
     noDataFoundDiv.innerHTML = `
      <img class="w-[140px] mb-4" src="./images/Icon.png" alt="" />
-     <h3 class="text-3xl font-bold">Oops!! Sorry, There is no content here</h3>
+     <h3 class="text-xl md:text-3xl font-bold text-center">Oops!! Sorry, There is no content here</h3>
   
     `;
     CardContainer.classList = "";
